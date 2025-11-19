@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chai Garam - Pocket Café</title>
+
+  <!-- Bootstrap -->
+  <link href="./Chai Garam - Pocket Café_files/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="./Chai Garam - Pocket Café_files/all.min.css">
+
+  <!-- Google Font -->
+  <link href="./Chai Garam - Pocket Café_files/css2" rel="stylesheet">
+
+  <!-- AOS -->
+  <link href="./Chai Garam - Pocket Café_files/aos.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent:#ff9800;
+      --accent-dark:#d35400;
+      --bg:#f7f2e9;
+      --glass: rgba(255,255,255,0.7);
+      --glass-strong: rgba(255,255,255,0.92);
+    }
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color:#222;
+    }
+
+    /* NAV */
+    .navbar{
+      backdrop-filter: blur(10px) saturate(120%);
+      background: rgba(0,0,0,0.45) !important;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .navbar-brand{letter-spacing:0.6px}
+
+    /* HERO */
+    .hero{
+      background: url('WhatsApp Image 2025-11-14 at 19.59.30_faab8132.jpg') center/cover no-repeat;
+      height:92vh;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.75));
+    }
+    .hero-content{position:relative;z-index:5;text-align:center;max-width:980px;padding:1rem}
+    .hero .kicker{background:rgba(255,255,255,0.12);display:inline-block;padding:6px 12px;border-radius:999px;margin-bottom:18px;color:#fff;font-weight:600}
+    .hero h1{font-weight:800;text-shadow:0 8px 30px rgba(0,0,0,0.5)}
+    .hero p{color:rgba(255,255,255,0.92);font-size:1.125rem}
+
+    /* Buttons */
+    .neon-btn{
+      background:linear-gradient(90deg,var(--accent),#ffb74d);
+      color:#111;padding:12px 28px;border-radius:999px;font-size:18px;font-weight:700;border:none;
+      box-shadow:0 6px 30px rgba(255,152,0,0.18),0 0 18px rgba(255,152,0,0.08)
+    }
+    .neon-btn:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(255,152,0,0.25)}
+
+    /* Menu */
+    #menu{padding-top:4.5rem;padding-bottom:3.5rem}
+    .menu-section-title{font-size:30px;font-weight:800;color:var(--accent-dark);text-align:center;margin-bottom:1.5rem}
+
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+    .card-menu{
+      background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.94));
+      border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(18,18,18,0.06);border:1px solid rgba(0,0,0,0.04);
+      transition:transform .22s ease, box-shadow .22s ease; display:flex;flex-direction:column;
+    }
+    .card-menu:hover{transform:translateY(-8px);box-shadow:0 22px 50px rgba(18,18,18,0.12)}
+    .card-menu .cat{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .card-menu .cat h4{margin:0;color:var(--accent-dark);font-weight:700}
+    .menu-item{display:flex;justify-content:space-between;align-items:center;padding:8px 6px;border-radius:8px;transition:background .15s}
+    .menu-item:hover{background:rgba(255,152,0,0.04)}
+    .menu-item .name{font-weight:600}
+    .menu-item .price{color:var(--accent-dark);font-weight:700;margin-left:10px}
+    .add-small{background:var(--accent);color:white;border:none;padding:6px 10px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(255,152,0,0.12)}
+    .add-small:active{transform:translateY(1px)}
+
+    /* Order area */
+    .order-card{border-radius:14px;padding:18px;background:var(--glass-strong);border:1px solid rgba(0,0,0,0.06);box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+    .order-line{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed rgba(0,0,0,0.06)}
+    .order-total{font-size:20px;font-weight:800;color:var(--accent-dark)}
+
+    /* suggestions */
+    .suggestions{position:absolute;z-index:50;width:100%;max-height:260px;overflow:auto;background:white;border-radius:8px;border:1px solid #eee;box-shadow:0 10px 30px rgba(0,0,0,0.08)}
+    .suggestions div{padding:10px 12px;cursor:pointer}
+    .suggestions div:hover{background:#fff3e0}
+
+    /* gallery */
+    .gallery img{width:100%;height:260px;object-fit:cover;border-radius:12px;transition:transform .25s}
+    .gallery img:hover{transform:scale(1.03)}
+
+    @media (max-width:576px){
+      .hero h1{font-size:34px}
+      .hero p{font-size:1rem}
+    }
+  </style>
+</head>
+<body data-aos-easing="ease" data-aos-duration="700" data-aos-delay="0">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="#">☕ Chai Garam</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#order">Order</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content aos-init aos-animate" data-aos="fade-up">
+      <div class="kicker">Pocket Café • Fresh Chai</div>
+      <h1 class="display-3 fw-bold">Chai Garam — Fresh, Fast, Friendly</h1>
+      <p class="lead">Hot tea, quick bites, shakes &amp; comfort food. Tap any item to add it to order instantly.</p>
+      <div class="mt-4">
+        <a class="neon-btn" href="#order">Order Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section id="menu" class="container py-5">
+    <div class="mt-5"></div>
+    <div class="menu-section-title">Our Menu — Digital</div>
+
+    <div class="menu-grid">
+
+      <!-- MOMOS -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="50">
+        <div class="cat"><h4>🥟 Momos</h4><div class="icon"><i class="fa-solid fa-drumstick-bite"></i></div></div>
+
+        <div class="menu-item">
+          <div><div class="name">Veg Steam Momo</div><small class="text-muted">8 pcs</small></div>
+          <div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Steam Momo&#39;,100)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Veg Fried Momo</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Fried Momo&#39;,100)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Chicken Steam Momo</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Steam Momo&#39;,130)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Chicken Fried Momo</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Fried Momo&#39;,130)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Veg Chilly Garlic</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Chilly Garlic&#39;,130)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Chicken Chilly Garlic</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Chilly Garlic&#39;,150)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Veg Creamy Alfredo (White)</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Creamy Alfredo&#39;,130)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Chicken Creamy Alfredo (White)</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Creamy Alfredo&#39;,150)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Veg Mix Sauce</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Mix Sauce&#39;,130)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Chicken Mix Sauce</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Mix Sauce&#39;,150)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Veg Tandoori Sauce</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Tandoori Sauce&#39;,130)">Add</button></div>
+        </div>
+
+        <div class="menu-item">
+          <div><div class="name">Chicken Tandoori Sauce</div></div>
+          <div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Tandoori Sauce&#39;,150)">Add</button></div>
+        </div>
+      </div>
+
+      <!-- FRIES -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+        <div class="cat"><h4>🍟 Fries</h4><div class="icon"><i class="fa-solid fa-burger"></i></div></div>
+
+        <div class="menu-item"><div class="name">Salted Fries</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Salted Fries&#39;,80)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Peri Peri Fries</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Peri Peri Fries&#39;,100)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Baked Cheese Fries</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Baked Cheese Fries&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Dip</div><div class="d-flex align-items-center"><div class="price">₹20</div><button class="add-small ms-3" onclick="quickAdd(&#39;Dip&#39;,20)">Add</button></div></div>
+      </div>
+
+      <!-- COLD BEVERAGES / SHAKES -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="150">
+        <div class="cat"><h4>🥤 Cold Beverages / Shakes</h4><div class="icon"><i class="fa-solid fa-cup-straw"></i></div></div>
+
+        <!-- sizes S/L/XL include individually so suggestion and cart handle them -->
+        <div class="menu-item"><div class="name">Cold Coffee (S)</div><div class="d-flex align-items-center"><div class="price">₹60</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cold Coffee (S)&#39;,60)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cold Coffee (L)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cold Coffee (L)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cold Coffee (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cold Coffee (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Cold Mocha (S)</div><div class="d-flex align-items-center"><div class="price">₹70</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cold Mocha (S)&#39;,70)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cold Mocha (L)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cold Mocha (L)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cold Mocha (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cold Mocha (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Chocolate (S)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chocolate (S)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chocolate (L)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chocolate (L)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chocolate (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chocolate (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Choco Mocha (S)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Choco Mocha (S)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Choco Mocha (L)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Choco Mocha (L)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Choco Mocha (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Choco Mocha (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Strawberry (S)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry (S)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Strawberry (L)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry (L)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Strawberry (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Butterscotch (S)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Butterscotch (S)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Butterscotch (L)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Butterscotch (L)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Butterscotch (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Butterscotch (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Mango (S)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mango (S)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Mango (L)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mango (L)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Mango (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mango (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Oreo (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Oreo (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Oreo (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Oreo (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Oreo (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Oreo (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">KitKat (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;KitKat (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">KitKat (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;KitKat (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">KitKat (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;KitKat (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Oreo Strawberry (S)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Oreo Strawberry (S)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Oreo Strawberry (L)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Oreo Strawberry (L)&#39;,140)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Oreo Strawberry (XL)</div><div class="d-flex align-items-center"><div class="price">₹160</div><button class="add-small ms-3" onclick="quickAdd(&#39;Oreo Strawberry (XL)&#39;,160)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Banana (S)</div><div class="d-flex align-items-center"><div class="price">₹90</div><button class="add-small ms-3" onclick="quickAdd(&#39;Banana (S)&#39;,90)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Banana (L)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Banana (L)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Banana (XL)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Banana (XL)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Brownie Shake (S)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Brownie Shake (S)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Brownie Shake (L)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Brownie Shake (L)&#39;,140)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Brownie Shake (XL)</div><div class="d-flex align-items-center"><div class="price">₹160</div><button class="add-small ms-3" onclick="quickAdd(&#39;Brownie Shake (XL)&#39;,160)">Add</button></div></div>
+      </div>
+
+      <!-- MAGGI -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+        <div class="cat"><h4>🍜 Maggi Noodles</h4><div class="icon"><i class="fa-solid fa-bowl-food"></i></div></div>
+
+        <div class="menu-item"><div class="name">Masala</div><div class="d-flex align-items-center"><div class="price">₹50</div><button class="add-small ms-3" onclick="quickAdd(&#39;Masala Maggi&#39;,50)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Double Masala</div><div class="d-flex align-items-center"><div class="price">₹60</div><button class="add-small ms-3" onclick="quickAdd(&#39;Double Masala Maggi&#39;,60)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Veg</div><div class="d-flex align-items-center"><div class="price">₹60</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Maggi&#39;,60)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cheese</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cheese Maggi&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Schezwan</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Schezwan Maggi&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Schezwan Cheese</div><div class="d-flex align-items-center"><div class="price">₹90</div><button class="add-small ms-3" onclick="quickAdd(&#39;Schezwan Cheese Maggi&#39;,90)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Egg</div><div class="d-flex align-items-center"><div class="price">₹70</div><button class="add-small ms-3" onclick="quickAdd(&#39;Egg Maggi&#39;,70)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chilli</div><div class="d-flex align-items-center"><div class="price">₹60</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chilli Maggi&#39;,60)">Add</button></div></div>
+      </div>
+
+      <!-- PIZZA -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="250">
+        <div class="cat"><h4>🍕 Pizza (8" / 12")</h4><div class="icon"><i class="fa-solid fa-pizza-slice"></i></div></div>
+
+        <div class="menu-item"><div class="name">Margarita (8")</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick='quickAdd("Margarita (8\")",120)'>Add</button></div></div>
+        <div class="menu-item"><div class="name">Margarita (12")</div><div class="d-flex align-items-center"><div class="price">₹200</div><button class="add-small ms-3" onclick='quickAdd("Margarita (12\")",200)'>Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Cheese &amp; Corn (8")</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick='quickAdd("Cheese &amp; Corn (8\")",120)'>Add</button></div></div>
+        <div class="menu-item"><div class="name">Cheese &amp; Corn (12")</div><div class="d-flex align-items-center"><div class="price">₹200</div><button class="add-small ms-3" onclick='quickAdd("Cheese &amp; Corn (12\")",200)'>Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Farm House (8")</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick='quickAdd("Farm House (8\")",120)'>Add</button></div></div>
+        <div class="menu-item"><div class="name">Farm House (12")</div><div class="d-flex align-items-center"><div class="price">₹200</div><button class="add-small ms-3" onclick='quickAdd("Farm House (12\")",200)'>Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Tandoori Paneer Pizza (8")</div><div class="d-flex align-items-center"><div class="price">₹180</div><button class="add-small ms-3" onclick='quickAdd("Tandoori Paneer Pizza (8\")",180)'>Add</button></div></div>
+        <div class="menu-item"><div class="name">Tandoori Paneer Pizza (12")</div><div class="d-flex align-items-center"><div class="price">₹250</div><button class="add-small ms-3" onclick='quickAdd("Tandoori Paneer Pizza (12\")",250)'>Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Tandoori Chicken Pizza (8")</div><div class="d-flex align-items-center"><div class="price">₹180</div><button class="add-small ms-3" onclick='quickAdd("Tandoori Chicken Pizza (8\")",180)'>Add</button></div></div>
+        <div class="menu-item"><div class="name">Tandoori Chicken Pizza (12")</div><div class="d-flex align-items-center"><div class="price">₹250</div><button class="add-small ms-3" onclick='quickAdd("Tandoori Chicken Pizza (12\")",250)'>Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Brown Bread Pizza (4 Pc)</div><div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Brown Bread Pizza (4 Pc)&#39;,150)">Add</button></div></div>
+      </div>
+
+      <!-- OMELETTE -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+        <div class="cat"><h4>🍳 Omelette</h4><div class="icon"><i class="fa-solid fa-egg"></i></div></div>
+
+        <div class="menu-item"><div class="name">Plain Omelette</div><div class="d-flex align-items-center"><div class="price">₹60</div><button class="add-small ms-3" onclick="quickAdd(&#39;Plain Omelette&#39;,60)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Masala Omelette</div><div class="d-flex align-items-center"><div class="price">₹70</div><button class="add-small ms-3" onclick="quickAdd(&#39;Masala Omelette&#39;,70)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cheese Omelette</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cheese Omelette&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">4 Egg Omelette</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;4 Egg Omelette&#39;,100)">Add</button></div></div>
+      </div>
+
+      <!-- SANDWICHES -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="350">
+        <div class="cat"><h4>🥪 Sandwiches</h4><div class="icon"><i class="fa-solid fa-sandwich"></i></div></div>
+
+        <div class="menu-item"><div class="name">Veg Sandwich</div><div class="d-flex align-items-center"><div class="price">₹60</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Sandwich&#39;,60)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chilly Cheese Sandwich</div><div class="d-flex align-items-center"><div class="price">₹70</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chilly Cheese Sandwich&#39;,70)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Corn &amp; Cheese Sandwich</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Corn &amp; Cheese Sandwich&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Paneer Grilled</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Paneer Grilled Sandwich&#39;,80)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Tandoori Cheese (4 Pc)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Tandoori Cheese (4 Pc)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Tandoori Paneer Grilled (4 Pc)</div><div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Tandoori Paneer Grilled (4 Pc)&#39;,150)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chicken Sandwich (4 Pc)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Sandwich (4 Pc)&#39;,120)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Veg Club Sandwich</div><div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Club Sandwich&#39;,130)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chicken Club Sandwich</div><div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Club Sandwich&#39;,150)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Egg Bhurji Sandwich</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Egg Bhurji Sandwich&#39;,80)">Add</button></div></div>
+      </div>
+
+      <!-- PASTA -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
+        <div class="cat"><h4>🍝 Pasta</h4><div class="icon"><i class="fa-solid fa-utensils"></i></div></div>
+
+        <div class="menu-item"><div class="name">White Sauce (Alfredo)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;White Sauce (Alfredo)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Red Sauce (Arrabbiata)</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Red Sauce (Arrabbiata)&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Mix Sauce</div><div class="d-flex align-items-center"><div class="price">₹90</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mix Sauce (Pasta)&#39;,90)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Tandoori Sauce</div><div class="d-flex align-items-center"><div class="price">₹90</div><button class="add-small ms-3" onclick="quickAdd(&#39;Tandoori Sauce (Pasta)&#39;,90)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Schezwan Pasta</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Schezwan Pasta&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Dry Pasta</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Dry Pasta&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Baked Cheese (Red/White/Mix)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Baked Cheese Pasta&#39;,120)">Add</button></div></div>
+      </div>
+
+      <!-- BURGERS -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="450">
+        <div class="cat"><h4>🍔 Burgers</h4><div class="icon"><i class="fa-solid fa-hamburger"></i></div></div>
+
+        <div class="menu-item"><div class="name">Veg Burger</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Burger&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chicken Burger</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Burger&#39;,120)">Add</button></div></div>
+      </div>
+
+      <!-- HOT BEVERAGES -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
+        <div class="cat"><h4>☕ Hot Beverages</h4><div class="icon"><i class="fa-solid fa-mug-hot"></i></div></div>
+
+        <div class="menu-item"><div class="name">Chai</div><div class="d-flex align-items-center"><div class="price">₹20</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chai&#39;,20)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Adrak Chai</div><div class="d-flex align-items-center"><div class="price">₹25</div><button class="add-small ms-3" onclick="quickAdd(&#39;Adrak Chai&#39;,25)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Masala Chai</div><div class="d-flex align-items-center"><div class="price">₹20</div><button class="add-small ms-3" onclick="quickAdd(&#39;Masala Chai&#39;,20)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Kulhad Chai</div><div class="d-flex align-items-center"><div class="price">₹30</div><button class="add-small ms-3" onclick="quickAdd(&#39;Kulhad Chai&#39;,30)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Hot Coffee (Small)</div><div class="d-flex align-items-center"><div class="price">₹30</div><button class="add-small ms-3" onclick="quickAdd(&#39;Hot Coffee (S)&#39;,30)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Hot Coffee (Large)</div><div class="d-flex align-items-center"><div class="price">₹50</div><button class="add-small ms-3" onclick="quickAdd(&#39;Hot Coffee (L)&#39;,50)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Hot Mocha</div><div class="d-flex align-items-center"><div class="price">₹50</div><button class="add-small ms-3" onclick="quickAdd(&#39;Hot Mocha&#39;,50)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Hot Chocolate</div><div class="d-flex align-items-center"><div class="price">₹70</div><button class="add-small ms-3" onclick="quickAdd(&#39;Hot Chocolate&#39;,70)">Add</button></div></div>
+      </div>
+
+      <!-- COOLERS -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="550">
+        <div class="cat"><h4>🧊 Coolers</h4><div class="icon"><i class="fa-solid fa-wine-bottle"></i></div></div>
+
+        <div class="menu-item"><div class="name">Cool Blue (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cool Blue (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cool Blue (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cool Blue (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Cool Blue (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Cool Blue (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Black Current Crusher (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Black Current Crusher (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Black Current Crusher (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Black Current Crusher (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Black Current Crusher (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Black Current Crusher (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Mango Crusher (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mango Crusher (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Mango Crusher (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mango Crusher (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Mango Crusher (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mango Crusher (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Green Apple (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Green Apple (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Green Apple (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Green Apple (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Green Apple (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Green Apple (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Lemonade (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Lemonade (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Lemonade (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Lemonade (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Lemonade (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Lemonade (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Mint Mojito (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mint Mojito (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Mint Mojito (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mint Mojito (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Mint Mojito (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Mint Mojito (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Watermelon Mojito (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Watermelon Mojito (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Watermelon Mojito (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Watermelon Mojito (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Watermelon Mojito (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Watermelon Mojito (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Strawberry Mojito (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry Mojito (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Strawberry Mojito (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry Mojito (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Strawberry Mojito (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry Mojito (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Ice Tea (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Ice Tea (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Ice Tea (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Ice Tea (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Ice Tea (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Ice Tea (XL)&#39;,140)">Add</button></div></div>
+
+        <div class="menu-item"><div class="name">Strawberry Ice Tea (S)</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry Ice Tea (S)&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Strawberry Ice Tea (L)</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry Ice Tea (L)&#39;,120)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Strawberry Ice Tea (XL)</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Strawberry Ice Tea (XL)&#39;,140)">Add</button></div></div>
+      </div>
+
+      <!-- COMBO MEALS -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="600">
+        <div class="cat"><h4>🍽️ Combo Meals</h4><div class="icon"><i class="fa-solid fa-box-open"></i></div></div>
+
+        <div class="menu-item"><div class="name">Veg Burger + Fries + Coke</div><div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Burger + Fries + Coke&#39;,130)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Veg Cheese Burger + Fries + Coke</div><div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Veg Cheese Burger + Fries + Coke&#39;,150)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chicken Burger + Fries + Coke</div><div class="d-flex align-items-center"><div class="price">₹180</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Burger + Fries + Coke&#39;,180)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Paneer Sandwich + Fries + Coke</div><div class="d-flex align-items-center"><div class="price">₹140</div><button class="add-small ms-3" onclick="quickAdd(&#39;Paneer Sandwich + Fries + Coke&#39;,140)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Corn &amp; Cheese Sandwich + Fries + Coke</div><div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Corn &amp; Cheese Sandwich + Fries + Coke&#39;,150)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Tandoori Chicken + Fries + Coke</div><div class="d-flex align-items-center"><div class="price">₹180</div><button class="add-small ms-3" onclick="quickAdd(&#39;Tandoori Chicken + Fries + Coke&#39;,180)">Add</button></div></div>
+      </div>
+
+      <!-- SUBWAY -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="650">
+        <div class="cat"><h4>🥖 Subway</h4><div class="icon"><i class="fa-solid fa-bread-slice"></i></div></div>
+
+        <div class="menu-item"><div class="name">Paneer Subway</div><div class="d-flex align-items-center"><div class="price">₹130</div><button class="add-small ms-3" onclick="quickAdd(&#39;Paneer Subway&#39;,130)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chicken Subway</div><div class="d-flex align-items-center"><div class="price">₹150</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Subway&#39;,150)">Add</button></div></div>
+      </div>
+
+      <!-- ROLLS -->
+      <div class="card-menu aos-init aos-animate" data-aos="fade-up" data-aos-delay="700">
+        <div class="cat"><h4>🌯 Rolls</h4><div class="icon"><i class="fa-solid fa-street-view"></i></div></div>
+
+        <div class="menu-item"><div class="name">Egg Roll</div><div class="d-flex align-items-center"><div class="price">₹80</div><button class="add-small ms-3" onclick="quickAdd(&#39;Egg Roll&#39;,80)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Paneer Roll</div><div class="d-flex align-items-center"><div class="price">₹100</div><button class="add-small ms-3" onclick="quickAdd(&#39;Paneer Roll&#39;,100)">Add</button></div></div>
+        <div class="menu-item"><div class="name">Chicken Roll</div><div class="d-flex align-items-center"><div class="price">₹120</div><button class="add-small ms-3" onclick="quickAdd(&#39;Chicken Roll&#39;,120)">Add</button></div></div>
+      </div>
+
+      <!-- (If you have additional categories/items in your images not listed above, tell me and I'll add them.) -->
+
+    </div> <!-- /.menu-grid -->
+  </section>
+
+  <!-- ORDER -->
+  <section id="order" class="container py-5">
+    <h2 class="text-center mb-4">Place Your Order</h2>
+
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="order-card p-3">
+          <form id="orderForm" onsubmit="return handleOrder(event)">
+            <div class="mb-3">
+              <label class="form-label">Customer Name</label>
+              <input type="text" id="custName" class="form-control" placeholder="Enter your name" required="">
+            </div>
+
+            <div class="mb-3" style="position:relative;">
+              <label class="form-label">Choose Item (type or click Add)</label>
+              <input type="text" id="itemInput" class="form-control" placeholder="Type or select item..." autocomplete="off">
+              <div id="liveSuggestions" class="suggestions" style="display:none;"></div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Price</label>
+                <input type="text" id="priceInput" class="form-control" readonly="" value="₹0">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Quantity</label>
+                <input type="number" id="qtyInput" min="1" class="form-control" value="1">
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="neon-btn">Add to Cart</button>
+              <button type="button" class="btn btn-outline-secondary ms-2" onclick="clearOrder()">Clear</button>
+            </div>
+          </form>
+
+          <div class="order-summary mt-4">
+            <h5 class="mb-2">Order Preview</h5>
+            <div id="orderPreview">No item selected.</div>
+            <div class="order-line mt-3">
+              <div class="text-muted">Total</div>
+              <div class="order-total" id="orderTotal">₹0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card-menu p-3">
+          <h5 class="mb-3">Your Cart</h5>
+          <div id="cartList"><div class="text-muted">Cart is empty</div></div>
+          <div class="mt-3">
+            <button class="btn btn-success w-100" onclick="checkout()">Checkout (WhatsApp)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="container py-5">
+    <h2 class="menu-section-title">Our Café Gallery</h2>
+    <div class="row g-4 gallery">
+      <div class="col-md-4 aos-init aos-animate" data-aos="zoom-in"><img src="images\7.jpg" alt="image 7"></div>
+      <div class="col-md-4 aos-init aos-animate" data-aos="zoom-in"><img src="images\2.jpg" alt="image 2"></div>
+      <div class="col-md-4 aos-init aos-animate" data-aos="zoom-in"><img src="images\1.jpg" alt="image 1"></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="bg-light py-5">
+    <div class="container text-center">
+      <h2 class="menu-section-title">About Us</h2>
+      <p class="fs-5">Chai Garam Pocket Café serves freshly brewed tea, snacks, shakes and quick bites—perfect for students and working professionals. Cozy vibes, fast service.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="container py-5">
+    <h2 class="menu-section-title text-center">Contact Us</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form class="p-4 rounded shadow bg-white">
+          <input class="form-control mb-3" placeholder="Your Name">
+          <textarea class="form-control mb-3" rows="3" placeholder="Message"></textarea>
+          <button class="neon-btn w-100">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="text-center py-3 bg-dark text-white">
+    © 2025 Chai Garam Pocket Café — Fresh Hot Tea Daily
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a id="waFloat" href="https://wa.me/919876543210" target="_blank" class="position-fixed" style="right:18px;bottom:18px; z-index:1200;">
+    <div style="background:#25d366;color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 26px rgba(0,0,0,0.14);">
+      <i class="fa-brands fa-whatsapp" style="font-size:22px;"></i>
+    </div>
+  </a>
+
+  <!-- SCRIPTS -->
+  <script src="./Chai Garam - Pocket Café_files/bootstrap.bundle.min.js.download"></script>
+  <script src="./Chai Garam - Pocket Café_files/aos.js.download"></script>
+
+  <script>
+    AOS.init({once:true, duration:700});
+
+    // Full ITEMS database (every menu item & price included)
+    const ITEMS = {
+      // MOMOS
+      "Veg Steam Momo":100,"Veg Fried Momo":100,"Chicken Steam Momo":130,"Chicken Fried Momo":130,
+      "Veg Chilly Garlic":130,"Chicken Chilly Garlic":150,"Veg Creamy Alfredo":130,"Chicken Creamy Alfredo":150,
+      "Veg Mix Sauce":130,"Chicken Mix Sauce":150,"Veg Tandoori Sauce":130,"Chicken Tandoori Sauce":150,
+
+      // FRIES
+      "Salted Fries":80,"Peri Peri Fries":100,"Baked Cheese Fries":120,"Dip":20,
+
+      // SHAKES / COLD BEVERAGES (sizes split)
+      "Cold Coffee (S)":60,"Cold Coffee (L)":80,"Cold Coffee (XL)":120,
+      "Cold Mocha (S)":70,"Cold Mocha (L)":100,"Cold Mocha (XL)":120,
+      "Chocolate (S)":80,"Chocolate (L)":100,"Chocolate (XL)":120,
+      "Choco Mocha (S)":80,"Choco Mocha (L)":100,"Choco Mocha (XL)":120,
+      "Strawberry (S)":80,"Strawberry (L)":100,"Strawberry (XL)":120,
+      "Butterscotch (S)":80,"Butterscotch (L)":100,"Butterscotch (XL)":120,
+      "Mango (S)":80,"Mango (L)":100,"Mango (XL)":120,
+      "Oreo (S)":100,"Oreo (L)":120,"Oreo (XL)":140,
+      "KitKat (S)":100,"KitKat (L)":120,"KitKat (XL)":140,
+      "Oreo Strawberry (S)":120,"Oreo Strawberry (L)":140,"Oreo Strawberry (XL)":160,
+      "Banana (S)":90,"Banana (L)":100,"Banana (XL)":120,
+      "Brownie Shake (S)":120,"Brownie Shake (L)":140,"Brownie Shake (XL)":160,
+
+      // MAGGI
+      "Masala Maggi":50,"Double Masala Maggi":60,"Veg Maggi":60,"Cheese Maggi":80,"Schezwan Maggi":80,"Schezwan Cheese Maggi":90,"Egg Maggi":70,"Chilli Maggi":60,
+
+      // PIZZA
+      "Margarita (8\")":120,"Margarita (12\")":200,
+      "Cheese & Corn (8\")":120,"Cheese & Corn (12\")":200,
+      "Farm House (8\")":120,"Farm House (12\")":200,
+      "Tandoori Paneer Pizza (8\")":180,"Tandoori Paneer Pizza (12\")":250,
+      "Tandoori Chicken Pizza (8\")":180,"Tandoori Chicken Pizza (12\")":250,
+      "Brown Bread Pizza (4 Pc)":150,
+
+      // OMELETTE
+      "Plain Omelette":60,"Masala Omelette":70,"Cheese Omelette":80,"4 Egg Omelette":100,
+
+      // SANDWICHES
+      "Veg Sandwich":60,"Chilly Cheese Sandwich":70,"Corn & Cheese Sandwich":80,"Paneer Grilled Sandwich":80,
+      "Tandoori Cheese (4 Pc)":120,"Tandoori Paneer Grilled (4 Pc)":150,"Chicken Sandwich (4 Pc)":120,
+      "Veg Club Sandwich":130,"Chicken Club Sandwich":150,"Egg Bhurji Sandwich":80,
+
+      // PASTA
+      "White Sauce (Alfredo)":80,"Red Sauce (Arrabbiata)":80,"Mix Sauce (Pasta)":90,"Tandoori Sauce (Pasta)":90,
+      "Schezwan Pasta":80,"Dry Pasta":80,"Baked Cheese Pasta":120,
+
+      // BURGERS
+      "Veg Burger":80,"Chicken Burger":120,
+
+      // HOT BEVERAGES
+      "Chai":20,"Adrak Chai":25,"Masala Chai":20,"Kulhad Chai":30,
+      "Hot Coffee (S)":30,"Hot Coffee (L)":50,"Hot Mocha":50,"Hot Chocolate":70,
+
+      // COOLERS
+      "Cool Blue (S)":100,"Cool Blue (L)":120,"Cool Blue (XL)":140,
+      "Black Current Crusher (S)":100,"Black Current Crusher (L)":120,"Black Current Crusher (XL)":140,
+      "Mango Crusher (S)":100,"Mango Crusher (L)":120,"Mango Crusher (XL)":140,
+      "Green Apple (S)":100,"Green Apple (L)":120,"Green Apple (XL)":140,
+      "Lemonade (S)":100,"Lemonade (L)":120,"Lemonade (XL)":140,
+      "Mint Mojito (S)":100,"Mint Mojito (L)":120,"Mint Mojito (XL)":140,
+      "Watermelon Mojito (S)":100,"Watermelon Mojito (L)":120,"Watermelon Mojito (XL)":140,
+      "Strawberry Mojito (S)":100,"Strawberry Mojito (L)":120,"Strawberry Mojito (XL)":140,
+      "Ice Tea (S)":100,"Ice Tea (L)":120,"Ice Tea (XL)":140,
+      "Strawberry Ice Tea (S)":100,"Strawberry Ice Tea (L)":120,"Strawberry Ice Tea (XL)":140,
+
+      // COMBOS
+      "Veg Burger + Fries + Coke":130,"Veg Cheese Burger + Fries + Coke":150,"Chicken Burger + Fries + Coke":180,
+      "Paneer Sandwich + Fries + Coke":140,"Corn & Cheese Sandwich + Fries + Coke":150,"Tandoori Chicken + Fries + Coke":180,
+
+      // SUBWAY
+      "Paneer Subway":130,"Chicken Subway":150,
+
+      // ROLLS
+      "Egg Roll":80,"Paneer Roll":100,"Chicken Roll":120
+    };
+
+    // Cart state
+    const cart = [];
+
+    // DOM refs
+    const itemInput = document.getElementById('itemInput');
+    const liveSuggestions = document.getElementById('liveSuggestions');
+    const priceInput = document.getElementById('priceInput');
+    const qtyInput = document.getElementById('qtyInput');
+    const orderPreview = document.getElementById('orderPreview');
+    const cartList = document.getElementById('cartList');
+    const orderTotalEl = document.getElementById('orderTotal');
+
+    // Quick add from card
+    function quickAdd(name, price){
+      document.getElementById('itemInput').value = name;
+      priceInput.value = '₹' + price;
+      qtyInput.value = 1;
+      updatePreview(name, price, 1);
+      addToCart(name, price, 1);
+      // scroll to order
+      location.hash = '#order';
+    }
+
+    // Live suggestions while typing
+    itemInput && itemInput.addEventListener('input', () => {
+      const q = itemInput.value.trim().toLowerCase();
+      liveSuggestions.innerHTML = '';
+      if(!q){ liveSuggestions.style.display='none'; return; }
+      const matches = Object.keys(ITEMS).filter(k => k.toLowerCase().includes(q));
+      if(matches.length === 0){ liveSuggestions.style.display='none'; return; }
+      matches.forEach(name=>{
+        const div = document.createElement('div');
+        div.textContent = `${name} — ₹${ITEMS[name]}`;
+        div.onclick = ()=> {
+          itemInput.value = name;
+          priceInput.value = '₹' + ITEMS[name];
+          qtyInput.value = 1;
+          updatePreview(name, ITEMS[name], 1);
+          liveSuggestions.style.display='none';
+        };
+        liveSuggestions.appendChild(div);
+      });
+      liveSuggestions.style.display='block';
+    });
+
+    // Hide suggestions clicking outside
+    document.addEventListener('click', (e)=>{
+      if(!document.getElementById('itemInput').contains(e.target) && !liveSuggestions.contains(e.target)){
+        liveSuggestions.style.display='none';
+      }
+    });
+
+    // When manual change leaves the input
+    (document.getElementById('itemInput')||{}).addEventListener && document.getElementById('itemInput').addEventListener('change', ()=>{
+      const typed = itemInput.value.trim();
+      if(!typed){ updatePreview('None',0,0); priceInput.value='₹0'; return; }
+      if(ITEMS[typed] !== undefined){
+        priceInput.value = '₹' + ITEMS[typed];
+        updatePreview(typed, ITEMS[typed], qtyInput.value || 1);
+      } else {
+        priceInput.value = 'Custom';
+        updatePreview(typed, 0, qtyInput.value || 1);
+      }
+    });
+
+    // Update preview
+    function updatePreview(name, price, qty){
+      if(!name || name === 'None'){ orderPreview.innerHTML = '<div class="text-muted">No item selected.</div>'; return; }
+      const total = (price||0) * (qty||1);
+      orderPreview.innerHTML = `<div><strong>${escapeHtml(name)}</strong> × ${qty} — <span class="fw-bold">₹${total}</span></div>`;
+    }
+
+    // Cart functions
+    function addToCart(name, price, qty){
+      qty = Number(qty) || 1;
+      const idx = cart.findIndex(i => i.name === name && i.price === price);
+      if(idx > -1) cart[idx].qty += qty;
+      else cart.push({name, price, qty});
+      renderCart();
+    }
+
+    function renderCart(){
+      cartList.innerHTML = '';
+      if(cart.length === 0){
+        cartList.innerHTML = '<div class="text-muted">Cart is empty</div>';
+        orderTotalEl.textContent = '₹0';
+        return;
+      }
+      let sum = 0;
+      cart.forEach((it,i)=>{
+        const row = document.createElement('div'); row.className='order-line';
+        const left = document.createElement('div'); left.innerHTML = `<div><strong>${escapeHtml(it.name)}</strong><div class="text-muted small">Qty: ${it.qty}</div></div>`;
+        const right = document.createElement('div');
+        const lineTotal = it.price * it.qty; sum += lineTotal;
+        right.innerHTML = `<div class="text-end"><div class="fw-bold">₹${lineTotal}</div><div class="mt-2"><button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${i})">Remove</button></div></div>`;
+        row.appendChild(left); row.appendChild(right);
+        cartList.appendChild(row);
+      });
+      orderTotalEl.textContent = '₹' + sum;
+    }
+
+    function removeFromCart(index){ cart.splice(index,1); renderCart(); }
+
+    function clearOrder(){
+      document.getElementById('orderForm').reset();
+      itemInput.value=''; priceInput.value='₹0'; qtyInput.value=1;
+      orderPreview.innerHTML = '<div class="text-muted">No item selected.</div>';
+    }
+
+    // Order form submit -> add to cart
+    function handleOrder(e){
+      e.preventDefault();
+      const cust = document.getElementById('custName').value.trim();
+      const item = itemInput.value.trim();
+      const qty = Number(qtyInput.value) || 1;
+      let unitPrice = 0;
+      if(ITEMS[item] !== undefined) unitPrice = ITEMS[item];
+      else unitPrice = 0; // custom or unknown
+      if(!item){ alert('Please choose an item or add from menu.'); return false; }
+      addToCart(item, unitPrice, qty);
+      alert('Added to cart. Use Checkout to send via WhatsApp.');
+      return false;
+    }
+
+    // Checkout via WhatsApp (replace number)
+    function checkout(){
+      if(cart.length === 0){ alert('Cart is empty. Add items first.'); return; }
+      const cust = document.getElementById('custName').value.trim() || 'Customer';
+      let message = `Order from Chai Garam%0ACustomer: ${encodeURIComponent(cust)}%0A%0A`;
+      let total = 0;
+      cart.forEach(it => {
+        message += `${encodeURIComponent(it.name)} x ${it.qty} = ₹${it.price * it.qty}%0A`;
+        total += it.price * it.qty;
+      });
+      message += `%0ATotal: ₹${total}%0A`;
+      const waNumber = '917303621440'; // <<< replace with your WhatsApp number (country code + number)
+      const url = `https://wa.me/${waNumber}?text=${message}`;
+      window.open(url, '_blank');
+    }
+
+    // escape HTML helper
+    function escapeHtml(unsafe){
+      return unsafe.replace(/[&<"'>]/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]); });
+    }
+
+    // Initialize cart view
+    renderCart();
+  </script>
+
+
+</body></html>
